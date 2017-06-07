@@ -1,0 +1,34 @@
+==== __Planifica sesiunea manual__ ====
+
+
+{{velocity}}
+{{html}}
+<button>Creaza manual o planificare noua</button>
+{{/html}}
+{{/velocity}}
+
+==== __Planifica sesiunea automat__ ====
+
+{{velocity}}
+{{html}}
+<button>Creaza automat o planificare noua</button>
+{{/html}}
+{{/velocity}}
+
+==== __Planificari__ ====
+
+{{velocity}}
+{{html}}
+<table>
+<thead>
+<tr>
+<td>Id</td>
+<td>Data</td>
+<td>Secretar</td>
+<td>Actiuni</td>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+{{/html}}
+{{/velocity}}

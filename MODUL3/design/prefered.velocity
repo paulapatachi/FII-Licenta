@@ -19,7 +19,7 @@
         #if($obj['id'] == $delete)
             $doc.removeObject($obj)
             $doc.save()
-            #set($objs = $doc.getObjects("Modul3.Criterii.Prefered"))
+            #set($ objs = $doc.getObjects("Modul3.Criterii.Prefered"))
         #end
     #end
 #end
