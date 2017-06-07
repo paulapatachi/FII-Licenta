@@ -21,7 +21,7 @@
     <form method="get" action="">
         <input type="hidden" name="planificationId" value="$planificationId" /><br />
         <label>Student</label><br />
-        <select name="teacher">
+        <select name="studentId">
            #foreach($stud in $students)
             #if ($stud['type']==1)
              <option value="$stud['id']">$stud['nume'] $stud['prenume']</option>
