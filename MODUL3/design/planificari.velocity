@@ -1,0 +1,43 @@
+==== __Planifica sesiunea manual__ ====
+
+
+{{velocity}}
+{{html}}
+<a href="Manual"><button>Creaza manual o planificare noua</button></a>
+{{/html}}
+{{/velocity}}
+
+==== __Planifica sesiunea automat__ ====
+
+{{velocity}}
+{{html}}
+<a href="Automat"><button>Creaza automat o planificare noua</button></a>
+{{/html}}
+{{/velocity}}
+
+==== __Planificari__ ====
+
+{{velocity}}
+{{html}}
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Data</th>
+<th>Actiuni</th>
+</tr>
+</thead>
+<tbody>
+#set($planificationsDoc = $xwiki.getDocument("Modul3.Planificari.Manual.WebHome"))
+#set($objects = $planificationsDoc.getObjects("Modul3.Planificari.Manual.WebHome"))
+    #foreach($obj in $objects)
+        <tr>
+            <td>$obj['id']</td>
+            <td>$obj['date']</td>
+            <td><a href="Manual?current=$obj['id']">Vezi planificare</a></td>
+        </tr>
+    #end
+</tbody>
+</table>
+{{/html}}
+{{/velocity}}

@@ -1,0 +1,89 @@
+
+{{velocity}}
+
+#set($slotsDoc = $xwiki.getDocument("Modul3.Sandbox.Slot"))
+#set($slots = $slotsDoc.getObjects('Modul3.Sandbox.Slot'))
+
+#set($studentsDoc = $xwiki.getDocument("Modul3.Sandbox.User.WebHome"))
+#set($students = $studentsDoc.getObjects('Modul3.Sandbox.User.WebHome'))
+
+#set($id = $request.get('id'))
+#set($date = $request.get('date'))
+
+#set($current = $request.get('current'))
+
+#if($id && $date)
+    #set($obj = $doc.newObject("Modul3.Planificari.Manual.WebHome"))
+    $obj.set("id",$id)
+    $obj.set("date",$date)
+    $doc.save()
+#end
+
+#set($deleteSlot = $request.get('deleteSlot'))
+#if($deleteSlot)
+    #foreach($slot in $slots)
+            #if($slot['id'] == $deleteSlot)
+                $slotsDoc.removeObject($slot)
+                $slotsDoc.save()
+                #set($slots = $slotsDoc.getObjects("Modul3.Sandbox.Slot"))
+            #end
+    #end
+#end
+
+#if($current)
+    #set($objects = $doc.getObjects("Modul3.Planificari.Manual.WebHome"))
+    #foreach($obj in $objects)
+        #if($obj['id']==$current)
+            #set($id=$obj['id'])
+            #set($date=$obj['date'])
+        #end
+    #end
+#end
+
+{{html}}
+<form action="" method="get">
+<label>Id</label><br />
+<input type="number" name="id" value="$id" /><br />
+<label>Date</label><br />
+#if($date)
+<input type="text" name="date" value="$date"/><br />
+#else
+<input type="text" name="date"/><br />
+#end
+
+<table>
+<thead>
+<tr>
+<th>Nume Student</td>
+<th>Ora</td>
+<th>Titlu licenta</td>
+<th>Actiuni</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+    #foreach($slot in $slots)
+        #if($slot['idPlanificare'] == $id)
+            #foreach($student in $students)
+                #if($student['id']==$slot['idStudent'] && $student['type']==1)
+                    <td>$student['nume']  $student['prenume']</td>
+                    <td>$slot['ora']</td>
+                    <td>$student['titluLicenta']</td>
+                    <td><a href="?deleteSlot=$slot['id']">Sterge</a></td>
+                #end
+            #end
+        #end
+    #end
+</tr>
+</tbody>
+</table>
+#if($id)
+<a href="/xwiki/bin/view/Modul3/Sandbox/Slot?planificationId=$id">Adauga student</a>
+#end
+<br /><br />
+<button type="submit">Save</button>
+</form>
+{{/html}}
+
+
+{{/velocity}}
