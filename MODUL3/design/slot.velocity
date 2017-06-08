@@ -1,0 +1,56 @@
+
+{{velocity}}
+
+#set($studentsDoc = $xwiki.getDocument("Modul3.Sandbox.User.WebHome"))
+#set($students = $studentsDoc.getObjects('Modul3.Sandbox.User.WebHome'))
+
+#set($studentId= $request.get('studentId'))
+#set($planificationId = $request.get('planificationId'))
+#set($ora = $request.get('ora'))
+#set($order = $request.get('order'))
+
+#if($studentId && $planificationId && $ora && $order)
+    #set($obj = $doc.newObject("Modul3.Sandbox.Slot"))
+    $obj.set("idPlanificare",$planificationId)
+    $obj.set("idStudent",$studentId)
+    $obj.set("ora",$ora)
+    $obj.set("order",$order)
+    $doc.save()
+#end
+{{html}}
+    <form method="get" action="">
+        <input type="hidden" name="planificationId" value="$planificationId" /><br />
+        <label>Student</label><br />
+        <select name="studentId">
+           #foreach($stud in $students)
+            #if ($stud['type']==1)
+             <option value="$stud['id']">$stud['nume'] $stud['prenume']</option>
+            #end
+           #end
+        </select><br />
+        <label>Ora</label><br />
+        <select name="ora">
+            <option value="08:00">08:00</option>
+            <option value="08:30">08:30</option>
+            <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
+            <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
+            <option value="14:00">14:30</option>
+            <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
+        </select><br />
+        <label>Order</label><br />
+        <input type="number" name="order" />
+        <br /><br />
+        <button type="submit">Adauga</button>
+    </form>
+{{/html}}
+
+{{/velocity}}
