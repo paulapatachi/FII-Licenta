@@ -1,0 +1,75 @@
+/////////////////////////////////////////creare tabel intermediar cu note
+{{velocity}}
+$xwiki.ssfx.use("js/xwiki/table/table.css")
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
+
+#set($xwql = "from doc.object('ProiectIP4.StudentsEvaluationClass') as Student where doc.fullName <> 'ProiectIP4.StudentsEvaluationTemplate'")
+#set($results = $services.query.xwql($xwql).execute())
+#if($results.empty)
+  No Student has been created yet!
+#else
+(% id="tableid" class="doOddEven filterable grid sortable" %)
+(% class="sortHeader" %)|=Nume Student |=Nota M1 |= Nota M2|= Nota M3|= Medie Cunostinte|= Nota M1|= Nota M2|= Nota M3|= Medie Lucrare|=Medie finala
+  #foreach ($item in $results)
+    #set($Student = $xwiki.getDocument($item))
+#set($nota1 = $Student.display("notaCm1"))
+#set($nota2 = $Student.display("notaCm2"))
+#set($nota3 = $Student.display("notaCm3"))
+#set($nota4 = $Student.display("notaLm1"))
+#set($nota5 = $Student.display("notaLm2"))
+#set($nota6 = $Student.display("notaLm3"))
+    #set($avgc = ($Student.getValue("notaCm1") + $Student.getValue("notaCm2") + $Student.getValue("notaCm3"))/3)
+    #set($avgl = ($Student.getValue("notaLm1") + $Student.getValue("notaLm2") + $Student.getValue("notaLm3"))/3)
+    #set($avgfinal = ($avgc + $avgl)/2)
+    #set($String = "abc")
+#if(!$nota1.empty &&!$nota2.empty &&!$nota3.empty &&!$nota4.empty &&!$nota5.empty && !$nota6.empty)
+|[[${Student.display("numeStudent")}>>${item}]]|${Student.display("notaCm1")}|${Student.display("notaCm2")}|${Student.display("notaCm3")}|$String.format("%.2f", $avgc)|${Student.display("notaLm1")}|${Student.display("notaLm2")}|${Student.display("notaLm3")}|$String.format("%.2f", $avgl)|$String.format("%.2f", $avgfinal)
+#elseif(!$nota1.empty &&!$nota2.empty &&!$nota3.empty)
+|[[${Student.display("numeStudent")}>>${item}]]|${Student.display("notaCm1")}|${Student.display("notaCm2")}|${Student.display("notaCm3")}|$String.format("%.2f", $avgc)|${Student.display("notaLm1")}|${Student.display("notaLm2")}|${Student.display("notaLm3")}| | 
+#elseif(!$nota4.empty &&!$nota5.empty &&!$nota6.empty)
+|
+[[${Student.display("numeStudent")}>>${item}]]|${Student.display("notaCm1")}|${Student.display("notaCm2")}|${Student.display("notaCm3")}| |${Student.display("notaLm1")}|${Student.display("notaLm2")}|${Student.display("notaLm3")}|$String.format("%.2f", $avgl)| 
+ #else
+|
+[[${Student.display("numeStudent")}>>${item}]]|${Student.display("notaCm1")}|${Student.display("notaCm2")}|${Student.display("notaCm3")}| |${Student.display("notaLm1")}|${Student.display("notaLm2")}|${Student.display("notaLm3")}| | 
+#end
+#end
+#end
+{{/velocity}}
+
+//////////////////////////////////////////creare tabel cu mediile finale
+{{velocity}}
+$xwiki.ssfx.use("js/xwiki/table/table.css")
+$xwiki.jsfx.use("js/xwiki/table/tablefilterNsort.js", true)
+
+#set($xwql = "from doc.object('ProiectIP4.StudentsEvaluationClass') as Student where doc.fullName <> 'ProiectIP4.StudentsEvaluationTemplate'")
+#set($results = $services.query.xwql($xwql).execute())
+#if($results.empty)
+  No Student has been created yet!
+#else
+(% id="tableid" class="doOddEven filterable grid sortable" %)
+(% class="sortHeader" %)|=Nume Student |= Medie Cunoştinţe|= Medie Lucrare|=Medie finală
+  #foreach ($item in $results)
+    #set($Student = $xwiki.getDocument($item))
+#set($nota1 = $Student.display("notaCm1"))
+#set($nota2 = $Student.display("notaCm2"))
+#set($nota3 = $Student.display("notaCm3"))
+#set($nota4 = $Student.display("notaLm1"))
+#set($nota5 = $Student.display("notaLm2"))
+#set($nota6 = $Student.display("notaLm3"))
+    #set($avgc = ($Student.getValue("notaCm1") + $Student.getValue("notaCm2") + $Student.getValue("notaCm3"))/3)
+    #set($avgl = ($Student.getValue("notaLm1") + $Student.getValue("notaLm2") + $Student.getValue("notaLm3"))/3)
+    #set($avgfinal = ($avgc + $avgl)/2)
+    #set($String = "abc")
+#if(!$nota1.empty &&!$nota2.empty &&!$nota3.empty &&!$nota4.empty &&!$nota5.empty && !$nota6.empty)
+    |[[${Student.display("numeStudent")}>>${item}]]|$String.format("%.2f",$avgc)|$String.format("%.2f", $avgl)|$String.format("%.2f", $avgfinal)
+#elseif(!$nota1.empty &&!$nota2.empty &&!$nota3.empty)
+    |[[${Student.display("numeStudent")}>>${item}]]|$String.format("%.2f",$avgc)| |
+#elseif(!$nota4.empty &&!$nota5.empty &&!$nota6.empty)
+    |[[${Student.display("numeStudent")}>>${item}]]| | $String.format("%.2f", $avgl)|
+#else
+    |[[${Student.display("numeStudent")}>>${item}]]| | |
+#end
+#end
+#end
+{{/velocity}}
